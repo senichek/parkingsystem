@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.mockito.Mockito.when;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,8 +55,6 @@ public class ParkingDataBaseIT {
     public void testParkingACar(){
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processIncomingVehicle();
-        // TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-
         /*
          * 1. If a ticket is created, it will have ID=1, parking_number=1 and
          * vehicle_reg_num= ABCDEF. These are the values we can check for when we
@@ -79,8 +78,6 @@ public class ParkingDataBaseIT {
         testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
-        // TODO: check that the fare generated and out time are populated correctly in the database
-
         /*
          * If the car's exist was processed correctly, the car's ticket will be
          * generated and its fields will not be null and the parking_number=1
