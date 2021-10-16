@@ -75,8 +75,16 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExit(){
-        testParkingACar();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+        parkingService.processIncomingVehicle();
+        // One second time-out so that the data has enough time to get saved in DB
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         parkingService.processExitingVehicle();
         /*
          * If the car's exist was processed correctly, the car's ticket will be

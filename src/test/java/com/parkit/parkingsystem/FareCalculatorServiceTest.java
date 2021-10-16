@@ -2,9 +2,6 @@ package com.parkit.parkingsystem;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
-import com.parkit.parkingsystem.dao.TicketDAO;
-import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
-import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
 import com.parkit.parkingsystem.service.FareCalculatorService;
@@ -21,14 +18,9 @@ public class FareCalculatorServiceTest {
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
 
-    private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
-    private static TicketDAO ticketDAO;
-
     @BeforeAll
     private static void setUp() {
         fareCalculatorService = new FareCalculatorService();
-        ticketDAO = new TicketDAO();
-        ticketDAO.dataBaseConfig = dataBaseTestConfig;
     }
 
     @BeforeEach
@@ -167,47 +159,33 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void discountCar() {
-        // 5% discount if this is not the 1st time the parking is used
-        DataBasePrepareService dataBasePrepareService = new DataBasePrepareService();
-        // the 1st visit
-        dataBasePrepareService.pushLoyalCustomerToDB(2, 2, "LOYAL_01", 36);
-
-        // the 2nd visit
         Date inTime = new Date();
-        inTime.setTime(System.currentTimeMillis() - (12 * 60 * 60 * 1000));
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(3, ParkingType.CAR, false);
+        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 
-        Ticket ticket = new Ticket();
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("LOYAL_01");
-        ticket.setLoyal(ticketDAO.hasAlreadyVisited(ticket.getVehicleRegNumber()));
+        ticket.setLoyal(true);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((12 * Fare.CAR_RATE_PER_HOUR_DISCOUNT), ticket.getPrice());
+        assertEquals((24 * Fare.CAR_RATE_PER_HOUR_DISCOUNT), ticket.getPrice());
     }
 
     @Test
     public void discountBike() {
-        // 5% discount if this is not the 1st time the parking is used
-        DataBasePrepareService dataBasePrepareService = new DataBasePrepareService();
-        // the 1st visit
-        dataBasePrepareService.pushLoyalCustomerToDB(3, 4, "LOYAL_02", 24);
-        
-        // the 2nd visit
         Date inTime = new Date();
-        inTime.setTime(System.currentTimeMillis() - (12 * 60 * 60 * 1000));
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(5, ParkingType.BIKE, false);
+        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
 
-        Ticket ticket = new Ticket();
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("LOYAL_02");
-        ticket.setLoyal(ticketDAO.hasAlreadyVisited(ticket.getVehicleRegNumber()));
+        ticket.setLoyal(true);
         fareCalculatorService.calculateFare(ticket);
-        assertEquals((12 * Fare.BIKE_RATE_PER_HOUR_DISCOUNT), ticket.getPrice());
+        assertEquals((24 * Fare.BIKE_RATE_PER_HOUR_DISCOUNT), ticket.getPrice());
     }
 }

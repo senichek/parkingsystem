@@ -29,7 +29,7 @@ public class DataBasePrepareService {
         }
     }
 
-    public void pushLoyalCustomerToDB(int ID, int parkingNum, String vehicleRegNum, double price) {
+    /* public void pushLoyalCustomerToDB(int ID, int parkingNum, String vehicleRegNum, double price) {
         Connection connection = null;
         try {
             connection = dataBaseTestConfig.getConnection();
@@ -53,5 +53,5 @@ public class DataBasePrepareService {
         } finally {
             dataBaseTestConfig.closeConnection(connection);
         }
-    }
+    } */
 }
