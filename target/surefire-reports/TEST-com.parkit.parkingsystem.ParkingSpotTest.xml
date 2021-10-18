@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.parkit.parkingsystem.ParkingServiceTest" time="0.067" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.parkit.parkingsystem.ParkingSpotTest" time="0.001" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -55,7 +55,8 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testGetNextParkingNumberInvalidInput" classname="com.parkit.parkingsystem.ParkingServiceTest" time="0.056"/>
-  <testcase name="testGetNextParkingNumberUnavailable" classname="com.parkit.parkingsystem.ParkingServiceTest" time="0.008"/>
-  <testcase name="testParkingBike" classname="com.parkit.parkingsystem.ParkingServiceTest" time="0.003"/>
+  <testcase name="testSetID" classname="com.parkit.parkingsystem.ParkingSpotTest" time="0"/>
+  <testcase name="testHash" classname="com.parkit.parkingsystem.ParkingSpotTest" time="0"/>
+  <testcase name="testSetParkingType" classname="com.parkit.parkingsystem.ParkingSpotTest" time="0"/>
+  <testcase name="testEquals" classname="com.parkit.parkingsystem.ParkingSpotTest" time="0"/>
 </testsuite>

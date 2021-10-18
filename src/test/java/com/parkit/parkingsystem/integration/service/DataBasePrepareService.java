@@ -3,9 +3,7 @@ package com.parkit.parkingsystem.integration.service;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Timestamp;
-import java.util.Date;
+
 
 public class DataBasePrepareService {
 

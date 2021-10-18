@@ -57,7 +57,7 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public void calculateFareUnkownType() {
+    public void calculateFareNullType() {
         Date inTime = new Date();
         inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
         Date outTime = new Date();
@@ -188,4 +188,4 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
         assertEquals((24 * Fare.BIKE_RATE_PER_HOUR_DISCOUNT), ticket.getPrice());
     }
-}
+ }
