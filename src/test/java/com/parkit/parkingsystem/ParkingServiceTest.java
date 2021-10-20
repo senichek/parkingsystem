@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,6 +25,8 @@ import static org.mockito.Mockito.*;
 public class ParkingServiceTest {
 
     private static ParkingService parkingService;
+
+    private Ticket ticket;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -36,7 +39,12 @@ public class ParkingServiceTest {
     private void setUpPerTest() {
         try {
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+
+            ticket = new Ticket();
+            ticket.setInTime(new Date());
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
@@ -45,20 +53,27 @@ public class ParkingServiceTest {
 
     @Test
     public void testParkingBike() throws Exception {
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("bike01");
         when(inputReaderUtil.readSelection()).thenReturn(2);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("bike01");
         when(parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE)).thenReturn(4);
 
         ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
 
-        Ticket ticket = new Ticket();
-        ticket.setInTime(new Date(System.currentTimeMillis() - (120 * 60 * 1000)));
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("bike01");
-        when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
 
-        parkingService.processIncomingVehicle();
+        when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(ticket);
+        when(ticketDAO.getTicket(any(String.class))).thenReturn(ticket);
+
+        // If there are no problems in processIncomingVehicle it will return
+        // ticket which can be compared with the ticket passed to ticketDAO.
+        Ticket fromService =  parkingService.processIncomingVehicle();
+
+        assertEquals(ticket.getId(), fromService.getId());
+        assertEquals(ticket.getInTime().toString(), fromService.getInTime().toString());
+        assertEquals(ticket.getParkingSpot(), fromService.getParkingSpot());
+        assertEquals(ticket.getOutTime(), fromService.getOutTime());        
+        
 
         parkingService.processExitingVehicle();
         // If the exit was processed correctly the OutTime will be generated
@@ -68,19 +83,18 @@ public class ParkingServiceTest {
 
     @Test
     public void testGetNextParkingNumberInvalidInput() {
-        // Here we do not set up vehicleType (it will be zero by default), 
-        //this is why getNextParkingNumberIfAvailable will fail and ps will be null.
-       ParkingSpot ps = parkingService.getNextParkingNumberIfAvailable();
-       assertNull(ps);
+        // Here we do not set up vehicleType (it will be zero by default),
+        // this is why <getNextParkingNumberIfAvailable> will fail and will generate
+        // an Exception that will not be thrown because it is located inside try-catch
+        // block. The parkingSpot will be null because the method <getNextParkingNumberIfAvailable>
+        // failed to complete.
+        ParkingSpot ps = assertDoesNotThrow(() -> parkingService.getNextParkingNumberIfAvailable());
+        assertNull(ps);
     }
 
     @Test
-    public void testGetNextParkingNumberUnavailable() {
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(-1);
-        // If there is no parking slot available the checked exception 
-        // will be generated and ps will remain null.
-        ParkingSpot ps = parkingService.getNextParkingNumberIfAvailable();
-        assertNull(ps);
+    public void testProcessExitingVehicleFailure() {
+        when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(false);
+        assertDoesNotThrow(() -> parkingService.processExitingVehicle());
     }
 }

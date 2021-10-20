@@ -20,24 +20,20 @@ public class FareCalculatorService {
         // Parking is free for those who stayed 30 min or less;
         if (duration <= 0.50) {
             duration = 0;
+        } 
+
+        // 5% discount for those who came the 2dn time;
+        if (ticket.getLoyal()) {
+            duration = duration * 0.95;
         }
 
         switch (ticket.getParkingSpot().getParkingType()) {
             case CAR: {
-                if (ticket.getLoyal()) {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR_DISCOUNT);
-                } else {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                }
+                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
                 break;
             }
             case BIKE: {
-                if (ticket.getLoyal()) {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR_DISCOUNT);
-
-                } else {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                }
+                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
                 break;
             }
             default:
