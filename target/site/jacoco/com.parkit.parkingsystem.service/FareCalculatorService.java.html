@@ -22,44 +22,23 @@ import com.parkit.parkingsystem.model.Ticket;
 <span class="fc" id="L22">            duration = 0;</span>
         } 
 
-<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (ticket.getLoyal()) {</span>
-<span class="fc" id="L26">            duration = duration * 0.95;</span>
+        // 5% discount for those who came the 2dn time;
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (ticket.getLoyal()) {</span>
+<span class="fc" id="L27">            duration = duration * 0.95;</span>
         }
 
-<span class="pc bpc" id="L29" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()) {</span>
+<span class="pc bpc" id="L30" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()) {</span>
             case CAR: {
-<span class="fc" id="L31">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);</span>
-<span class="fc" id="L32">                break;</span>
+<span class="fc" id="L32">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);</span>
+<span class="fc" id="L33">                break;</span>
             }
             case BIKE: {
-<span class="fc" id="L35">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);</span>
-<span class="fc" id="L36">                break;</span>
+<span class="fc" id="L36">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);</span>
+<span class="fc" id="L37">                break;</span>
             }
             default:
-<span class="nc" id="L39">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+<span class="nc" id="L40">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
-
-        /* switch (ticket.getParkingSpot().getParkingType()) {
-            case CAR: {
-                if (ticket.getLoyal()) {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR_DISCOUNT);
-                } else {
-                    ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);
-                }
-                break;
-            }
-            case BIKE: {
-                if (ticket.getLoyal()) {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR_DISCOUNT);
-
-                } else {
-                    ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);
-                }
-                break;
-            }
-            default:
-                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);
-        } */
-<span class="fc" id="L63">    }</span>
+<span class="fc" id="L42">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

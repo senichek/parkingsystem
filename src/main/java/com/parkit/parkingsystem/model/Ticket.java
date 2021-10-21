@@ -20,11 +20,21 @@ public class Ticket {
     }
 
     public ParkingSpot getParkingSpot() {
-        return parkingSpot;
+        ParkingSpot ps = new ParkingSpot();
+        //this.parkingSpot = parkingSpot;
+        ps.setId(parkingSpot.getId());
+        ps.setAvailable(true);
+        ps.setParkingType(parkingSpot.getParkingType());
+        return ps;
     }
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
-        this.parkingSpot = parkingSpot;
+        ParkingSpot ps = new ParkingSpot();
+        //this.parkingSpot = parkingSpot;
+        ps.setId(parkingSpot.getId());
+        ps.setAvailable(true);
+        ps.setParkingType(parkingSpot.getParkingType());
+        this.parkingSpot = ps;
     }
 
     public String getVehicleRegNumber() {
