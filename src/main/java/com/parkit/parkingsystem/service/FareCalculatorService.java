@@ -1,19 +1,23 @@
 package com.parkit.parkingsystem.service;
 
+import java.time.Duration;
+
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
 
     public void calculateFare(Ticket ticket) {
-        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
+        if ((ticket.getOutTime() == null) || (ticket.getOutTime().isBefore(ticket.getInTime()))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
-        Long inHour = ticket.getInTime().getTime();
-        Long outHour = ticket.getOutTime().getTime();
+        /* Long inHour = ticket.getInTime().getTime();
+        Long outHour = ticket.getOutTime().getTime(); */
 
-        double duration = outHour.doubleValue() - inHour.doubleValue(); // One hour in milliseconds;
+        //double duration = outHour.doubleValue() - inHour.doubleValue(); // One hour in milliseconds;
+
+        double duration = Duration.between(ticket.getInTime(), ticket.getOutTime()).toMillis();
 
         duration = duration / 3600000;
 

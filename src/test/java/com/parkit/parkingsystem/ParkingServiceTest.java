@@ -15,6 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +45,7 @@ public class ParkingServiceTest {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
 
             ticket = new Ticket();
-            ticket.setInTime(new Date());
+            ticket.setInTime(LocalDateTime.now());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,14 +72,14 @@ public class ParkingServiceTest {
         Ticket fromService =  parkingService.processIncomingVehicle();
 
         assertEquals(ticket.getId(), fromService.getId());
-        assertEquals(ticket.getInTime().toString(), fromService.getInTime().toString());
+        assertEquals(ticket.getInTime().truncatedTo(ChronoUnit.SECONDS), fromService.getInTime().truncatedTo(ChronoUnit.SECONDS));
         assertEquals(ticket.getParkingSpot(), fromService.getParkingSpot());
         assertEquals(ticket.getOutTime(), fromService.getOutTime());        
         
 
         parkingService.processExitingVehicle();
         // If the exit was processed correctly the OutTime will be generated
-        Date outTime = ticketDAO.getTicket("bike01").getOutTime();
+        LocalDateTime outTime = ticketDAO.getTicket("bike01").getOutTime();
         assertNotNull(outTime);
     }
 
