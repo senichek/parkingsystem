@@ -1,7 +1,6 @@
 package com.parkit.parkingsystem.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Ticket {
     private int id;
@@ -22,7 +21,6 @@ public class Ticket {
 
     public ParkingSpot getParkingSpot() {
         ParkingSpot ps = new ParkingSpot();
-        //this.parkingSpot = parkingSpot;
         ps.setId(parkingSpot.getId());
         ps.setAvailable(true);
         ps.setParkingType(parkingSpot.getParkingType());
@@ -31,7 +29,6 @@ public class Ticket {
 
     public void setParkingSpot(ParkingSpot parkingSpot) {
         ParkingSpot ps = new ParkingSpot();
-        //this.parkingSpot = parkingSpot;
         ps.setId(parkingSpot.getId());
         ps.setAvailable(true);
         ps.setParkingType(parkingSpot.getParkingType());

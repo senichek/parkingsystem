@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class FareCalculatorServiceTest {
 
@@ -81,11 +80,6 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithLessThanOneHourParkingTime() {
-        //Date inTime = new Date();
-       // inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));// 45 minutes parking time should give 3/4th
-                                                                      // parking fare
-       // Date outTime = new Date();
-
         LocalDateTime inTime = LocalDateTime.now().minusMinutes(45);
         LocalDateTime outTime = LocalDateTime.now();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
